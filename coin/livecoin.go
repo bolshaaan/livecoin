@@ -176,6 +176,10 @@ func NewLiveCoin(secFile, apiFile string) (lc LCInterface) {
 	return
 }
 
+type TotalResult struct {
+	Total float64 `json:"total"`
+}
+
 func main() {
 	lc := NewLiveCoin("/Users/aleksandr/livecoin/secret", "/Users/aleksandr/livecoin/apiFile")
 
@@ -184,7 +188,13 @@ func main() {
 
 		total := lc.GetTotalUSD()
 		//writer.Write([]byte(strconv.FormatFloat(total, 'e', 0, 64)))
-		writer.Write([]byte(fmt.Sprintf("%.4f\n", total)))
+
+		enc := json.NewEncoder(writer)
+		enc.Encode(&TotalResult{Total: total})
+
+		request.Header.Add("Content-Type", "application/json")
+
+		//writer.Write([]byte(fmt.Sprintf("%.4f\n", total)))
 		//fmt.Println("Total = ", total)
 
 	})
