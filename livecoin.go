@@ -4,11 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"flag"
+
 	"github.com/bolshaaan/livecoin/coin"
 )
 
+var secretFile = flag.String("secret_file", "/Users/aleksandr/livecoin/secret", "path to file with secret")
+var apiFile = flag.String("api_file", "/Users/aleksandr/livecoin/apiFile", "path to file with api key")
+
 func main() {
-	lc := livecoin.NewLiveCoin("/Users/aleksandr/livecoin/secret", "/Users/aleksandr/livecoin/apiFile")
+
+	flag.Parse()
+
+	lc := livecoin.NewLiveCoin(*secretFile, *apiFile)
 
 	handler := http.NewServeMux()
 	handler.HandleFunc("/total", func(writer http.ResponseWriter, request *http.Request) {
