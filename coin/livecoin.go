@@ -177,7 +177,7 @@ func NewLiveCoin(secFile, apiFile string) (lc LCInterface) {
 }
 
 type TotalResult struct {
-	Total float64 `json:"total"`
+	USD float64 `json:"usd"`
 }
 
 func main() {
@@ -190,7 +190,7 @@ func main() {
 		//writer.Write([]byte(strconv.FormatFloat(total, 'e', 0, 64)))
 
 		enc := json.NewEncoder(writer)
-		enc.Encode(&TotalResult{Total: total})
+		enc.Encode(&TotalResult{USD: total})
 
 		request.Header.Add("Content-Type", "application/json")
 
