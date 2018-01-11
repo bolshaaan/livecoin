@@ -46,18 +46,15 @@ func (lc *LiveCoin) APIKey() string {
 }
 
 func (lc *LiveCoin) Balances(cur string) BalancesRes {
-
 	vals := &url.Values{}
 	if cur != "" {
 		vals.Add("currency", cur)
 	}
 
 	resp, err := lc.doRequest(APIUrl+"/payment/balances", vals)
-
 	if err != nil {
 		panic(err)
 	}
-
 	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
@@ -73,7 +70,6 @@ func (lc *LiveCoin) Balances(cur string) BalancesRes {
 		if true {
 			body, _ := ioutil.ReadAll(resp.Body)
 			fmt.Println(string(body))
-
 		}
 
 		panic(fmt.Errorf("Status code = %d", resp.StatusCode))
@@ -114,6 +110,8 @@ func (lc *LiveCoin) CurrencyPair(pair string) *CurPairResult {
 	if err != nil {
 		panic(err)
 	}
+
+	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
 		raw := &CurPairResult{}
